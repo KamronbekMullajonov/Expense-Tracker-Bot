@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budgets | Apex Finance</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/budgets.css">
+</head>
+<body class="dark-mode">
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="logo-area"><i class="fa-solid fa-wallet brand-icon"></i><h2>Apex<span>Finance</span></h2></div>
+            <nav class="nav-menu">
+                <a href="dashboard.html" class="nav-item"><i class="fa-solid fa-chart-pie"></i> Dashboard</a>
+                <a href="analytics.html" class="nav-item"><i class="fa-solid fa-chart-line"></i> Analytics</a>
+                <a href="budgets.html" class="nav-item active"><i class="fa-solid fa-scale-balanced"></i> Budgets</a>
+                <a href="goals.html" class="nav-item"><i class="fa-solid fa-bullseye"></i> Goals</a>
+                <a href="settings.html" class="nav-item"><i class="fa-solid fa-gear"></i> Settings</a>
+            </nav>
+        </aside>
+        <main class="main-content">
+            <header class="top-header">
+                <h1>Dynamic Limits & Budgets</h1>
+                <button class="btn btn-primary" id="add-budget-trigger-btn"><i class="fa-solid fa-plus"></i> Configure Limit</button>
+            </header>
+            <div class="budgets-panel-layout" id="budgets-target-anchor">
+                </div>
+        </main>
+    </div>
+
+    <div class="modal-overlay" id="budget-modal">
+        <div class="modal-content glass-card">
+            <div class="modal-header"><h3>Set Category Budget</h3><button class="close-modal-btn" id="close-budget-modal-btn">&times;</button></div>
+            <form id="budget-config-form" class="standard-form">
+                <div class="form-group">
+                    <label>Target Category</label>
+                    <select id="budget-category-selector">
+                        <option value="Food & Dining">Food & Dining</option>
+                        <option value="Utilities">Utilities/Bills</option>
+                        <option value="Entertainment">Entertainment</option>
+                        <option value="Transportation">Transportation</option>
+                        <option value="Shopping">Shopping</option>
+                        <option value="Other">Other Misc</option>
+                    </select>
+                </div>
+                <div class="form-group"><label>Monthly Max Threshold Limit ($)</label><input type="number" id="budget-amount-limit" step="1" required></div>
+                <button type="submit" class="btn btn-submit-action w-100">Apply Cap Constraints</button>
+            </form>
+        </div>
+    </div>
+    <script src="js/storage.js" type="module"></script>
+    <script src="js/budget.js" type="module"></script>
+</body>
+</html>

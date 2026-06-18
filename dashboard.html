@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Apex Finance</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/animations.css">
+</head>
+<body class="dark-mode">
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="logo-area">
+                <i class="fa-solid fa-wallet brand-icon"></i>
+                <h2><span id="app-brand-text-render">ApexFinance</span></h2>
+            </div>
+            <nav class="nav-menu">
+                <a href="dashboard.html" class="nav-item active"><i class="fa-solid fa-chart-pie"></i> <span data-i18n="dashboard">Dashboard</span></a>
+                <a href="analytics.html" class="nav-item"><i class="fa-solid fa-chart-line"></i> <span data-i18n="analytics">Analytics</span></a>
+                <a href="budgets.html" class="nav-item"><i class="fa-solid fa-scale-balanced"></i> <span data-i18n="budgets">Budgets</span></a>
+                <a href="goals.html" class="nav-item"><i class="fa-solid fa-bullseye"></i> <span data-i18n="goals">Goals</span></a>
+                <a href="settings.html" class="nav-item"><i class="fa-solid fa-gear"></i> <span data-i18n="settings">Settings</span></a>
+            </nav>
+            <div class="theme-toggle-panel">
+                <i class="fa-solid fa-sun"></i>
+                <label class="switch">
+                    <input type="checkbox" id="theme-toggle-btn" checked>
+                    <span class="slider round"></span>
+                </label>
+                <i class="fa-solid fa-moon"></i>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-header">
+                <div class="welcome-msg">
+                    <h1 data-i18n="welcome">Welcome Back, Financial Maestro</h1>
+                    <p id="current-date-str" data-i18n="overview">Overview of your real-time financial health index.</p>
+                </div>
+                <div class="health-badge-container">
+                    <div class="health-score-widget">
+                        <span data-i18n="health">Financial Health</span>
+                        <strong id="health-score-val">84%</strong>
+                    </div>
+                </div>
+            </header>
+
+            <section class="metrics-grid">
+                <div class="metric-card glass-card dynamic-pulse">
+                    <div class="card-icon balance-ico"><i class="fa-solid fa-scale-unbalanced-flip"></i></div>
+                    <div class="card-info">
+                        <h3 data-i18n="netBalance">Net Total Balance</h3>
+                        <p class="amount-val text-gradient" id="total-balance-display">$0.00</p>
+                    </div>
+                </div>
+                <div class="metric-card glass-card">
+                    <div class="card-icon income-ico"><i class="fa-solid fa-arrow-trend-up"></i></div>
+                    <div class="card-info">
+                        <h3 data-i18n="monthlyIncome">Monthly Income</h3>
+                        <p class="amount-val text-green" id="monthly-income-display">$0.00</p>
+                    </div>
+                </div>
+                <div class="metric-card glass-card">
+                    <div class="card-icon expense-ico"><i class="fa-solid fa-arrow-trend-down"></i></div>
+                    <div class="card-info">
+                        <h3 data-i18n="monthlyExpenses">Monthly Expenses</h3>
+                        <p class="amount-val text-rose" id="monthly-expense-display">$0.00</p>
+                    </div>
+                </div>
+                <div class="metric-card glass-card">
+                    <div class="card-icon savings-ico"><i class="fa-solid fa-piggy-bank"></i></div>
+                    <div class="card-info">
+                        <h3 data-i18n="netSavings">Net Savings</h3>
+                        <p class="amount-val text-indigo" id="net-savings-display">$0.00</p>
+                    </div>
+                </div>
+            </section>
+
+            <div class="dashboard-split">
+                <section class="ledger-container glass-card">
+                    <div class="ledger-header">
+                        <h2 data-i18n="recentEntries">Recent Ledger Entries</h2>
+                        <button class="btn btn-primary trigger-modal-btn" id="open-tx-modal-btn">
+                            <i class="fa-solid fa-plus"></i> <span data-i18n="addTx">Add Transaction</span>
+                        </button>
+                    </div>
+                    
+                    <div class="filters-row">
+                        <div class="search-box">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <input type="text" id="tx-search-input" data-i18n="searchPlaceholder" placeholder="Search entries...">
+                        </div>
+                        <div class="select-wrapper">
+                            <select id="tx-type-filter">
+                                <option value="all" data-i18n="allTypes">All Types</option>
+                                <option value="income" data-i18n="incomes">Incomes</option>
+                                <option value="expense" data-i18n="expenses">Expenses</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="table-scroll-container">
+                        <table class="custom-table">
+                            <thead>
+                                <tr>
+                                    <th data-i18n="desc">Description</th>
+                                    <th data-i18n="cat">Category</th>
+                                    <th data-i18n="date">Date</th>
+                                    <th data-i18n="amt">Amount</th>
+                                    <th data-i18n="actions">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="dashboard-tx-table-body"></tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section class="insights-container glass-card">
+                    <h2 data-i18n="insightsTitle">Smart Financial Insights</h2>
+                    <div class="insights-stack" id="insights-dynamic-stack"></div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <div class="modal-overlay" id="tx-modal">
+        <div class="modal-content glass-card structural-slide-in">
+            <div class="modal-header">
+                <h3>New Log Entry</h3>
+                <button class="close-modal-btn" id="close-tx-modal-btn">&times;</button>
+            </div>
+            <form id="tx-entry-form" class="standard-form">
+                <div class="form-group">
+                    <div class="segmented-control">
+                        <input type="radio" name="tx-type" id="type-expense" value="expense" checked>
+                        <label for="type-expense" data-i18n="expenses">Expense</label>
+                        <input type="radio" name="tx-type" id="type-income" value="income">
+                        <label for="type-income" data-i18n="incomes">Income</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="tx-amount" data-i18n="amt">Amount ($)</label>
+                    <input type="number" id="tx-amount" step="0.01" required min="0.01" placeholder="0.00">
+                </div>
+                <div class="form-group">
+                    <label for="tx-category" data-i18n="cat">Target Category</label>
+                    <select id="tx-category" required>
+                        <option value="Salary">Salary</option>
+                        <option value="Freelance">Freelance</option>
+                        <option value="Food & Dining">Food & Dining</option>
+                        <option value="Utilities">Utilities</option>
+                        <option value="Entertainment">Entertainment</option>
+                        <option value="Transportation">Transportation</option>
+                        <option value="Shopping">Shopping</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="tx-date" data-i18n="date">Date</label>
+                    <input type="date" id="tx-date" required>
+                </div>
+                <div class="form-group">
+                    <label for="tx-desc" data-i18n="desc">Description</label>
+                    <input type="text" id="tx-desc" required placeholder="...">
+                </div>
+                <button type="submit" class="btn btn-submit-action w-100" data-i18n="addTx">Commit Entry</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/storage.js" type="module"></script>
+    <script src="js/ui.js" type="module"></script>
+    <script src="js/dashboard.js" type="module"></script>
+</body>
+</html>

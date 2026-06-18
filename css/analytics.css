@@ -1,0 +1,10 @@
+.charts-grid-layout {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px;
+}
+.chart-card { padding: 24px; min-height: 340px; display: flex; flex-direction: column; }
+.chart-card h3 { font-size: 16px; font-weight: 600; margin-bottom: 20px; color: var(--text-muted); }
+.canvas-box { position: relative; flex-grow: 1; width: 100%; height: 100%; }
+
+@media(max-width: 768px) {
+    .charts-grid-layout { grid-template-columns: 1fr; }
+}

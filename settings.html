@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Settings | Apex Finance</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="dark-mode">
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="logo-area">
+                <i class="fa-solid fa-wallet brand-icon"></i>
+                <h2><span id="app-brand-text-render">ApexFinance</span></h2>
+            </div>
+            <nav class="nav-menu">
+                <a href="dashboard.html" class="nav-item"><i class="fa-solid fa-chart-pie"></i> <span data-i18n="dashboard">Dashboard</span></a>
+                <a href="analytics.html" class="nav-item"><i class="fa-solid fa-chart-line"></i> <span data-i18n="analytics">Analytics</span></a>
+                <a href="budgets.html" class="nav-item"><i class="fa-solid fa-scale-balanced"></i> <span data-i18n="budgets">Budgets</span></a>
+                <a href="goals.html" class="nav-item"><i class="fa-solid fa-bullseye"></i> <span data-i18n="goals">Goals</span></a>
+                <a href="settings.html" class="nav-item active"><i class="fa-solid fa-gear"></i> <span data-i18n="settings">Settings</span></a>
+            </nav>
+        </aside>
+        
+        <main class="main-content">
+            <header class="top-header"><h1 data-i18n="sysConfig">System Configuration Management</h1></header>
+            
+            <div class="glass-card" style="max-width: 600px; padding: 32px; display:flex; flex-direction:column; gap:28px;">
+                
+                <div class="form-group" style="display:flex; flex-direction:column; gap:8px;">
+                    <label style="font-weight:600; color:var(--text-muted);" data-i18n="selectLang">Select Language Mode</label>
+                    <div class="select-wrapper">
+                        <select id="app-language-selector-node" style="width:100%;">
+                            <option value="en">English (US)</option>
+                            <option value="uz">Uzbek (O'zbekcha)</option>
+                            <option value="ru">Русский (Russian)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group" style="display:flex; flex-direction:column; gap:8px;">
+                    <label style="font-weight:600; color:var(--text-muted);" data-i18n="changeBrand">Configure Custom Branding Name</label>
+                    <div style="display:flex; gap:12px;">
+                        <input type="text" id="brand-name-input-field" style="padding:12px; border-radius:12px; background:rgba(0,0,0,0.1); border:1px solid var(--border-color); color:inherit; flex-grow:1;" placeholder="ApexFinance">
+                        <button class="btn btn-primary" id="save-brand-identity-btn" data-i18n="commitBrand">Update</button>
+                    </div>
+                </div>
+
+                <hr style="border:none; border-top:1px solid var(--border-color);">
+
+                <div>
+                    <h3 data-i18n="dataDiagnostics">Data Pipeline Diagnostics</h3>
+                    <p style="color: var(--text-muted); font-size:14px; margin: 8px 0 20px 0;" data-i18n="dataDiagDesc">Manage database engine status structures manually.</p>
+                    <button class="btn" id="wipe-system-data-btn" style="background: var(--rose-accent); color:#fff; width:100%; justify-content:center;">
+                        <i class="fa-solid fa-trash-can"></i> <span data-i18n="factoryReset">Factory Hard Reset Local Storage</span>
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script type="module">
+        import { storageEngine } from './js/storage.js';
+        import { uiManager } from './js/ui.js';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const state = storageEngine.getState();
+            
+            // Sync settings form fields on layout load
+            const langSelector = document.getElementById('app-language-selector-node');
+            const brandInput = document.getElementById('brand-name-input-field');
+            
+            if(langSelector) langSelector.value = state.systemSettings.currentLang || 'en';
+            if(brandInput) brandInput.value = state.systemSettings.brandName || 'ApexFinance';
+
+            // Language switcher event listener
+            if(langSelector) {
+                langSelector.addEventListener('change', (e) => {
+                    const currentData = storageEngine.getState();
+                    currentData.systemSettings.currentLang = e.target.value;
+                    storageEngine.saveState(currentData);
+                    uiManager.translatePage();
+                });
+            }
+
+            // Brand update event listener
+            const saveBrandBtn = document.getElementById('save-brand-identity-btn');
+            if(saveBrandBtn && brandInput) {
+                saveBrandBtn.addEventListener('click', () => {
+                    const currentData = storageEngine.getState();
+                    const cleanName = brandInput.value.trim();
+                    currentData.systemSettings.brandName = cleanName ? cleanName : "ApexFinance";
+                    storageEngine.saveState(currentData);
+                    uiManager.translatePage();
+                });
+            }
+
+            // Hard reset trigger event listener
+            const resetBtn = document.getElementById('wipe-system-data-btn');
+            if(resetBtn) {
+                resetBtn.addEventListener('click', () => {
+                    if(confirm("CRITICAL WARNING: This completely wipes local state. Proceed?")) {
+                        storageEngine.purgeStateData();
+                        window.location.reload();
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

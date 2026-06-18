@@ -1,0 +1,17 @@
+{
+  "transactions": [
+    {"id": "1", "type": "income", "amount": 5000, "category": "Salary", "date": "2026-06-01", "description": "Monthly Base Remuneration"},
+    {"id": "2", "type": "expense", "amount": 120, "category": "Food & Dining", "date": "2026-06-02", "description": "Steakhouse Dinner Dinner"},
+    {"id": "3", "type": "expense", "amount": 85, "category": "Utilities", "date": "2026-06-04", "description": "Gigabit Internet Fiber"},
+    {"id": "4", "type": "expense", "amount": 210, "category": "Shopping", "date": "2026-06-05", "description": "Mechanical Keyboard"}
+  ],
+  "budgets": [
+    {"category": "Food & Dining", "limit": 600},
+    {"category": "Utilities", "limit": 300},
+    {"category": "Shopping", "limit": 400}
+  ],
+  "goals": [
+    {"id": "g1", "name": "Emergency Liquidity Buffer", "target": 10000, "current": 4500},
+    {"id": "g2", "name": "Japan Tech Tour Capital", "target": 6000, "current": 1200}
+  ]
+}
